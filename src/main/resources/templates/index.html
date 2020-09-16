@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org" >
+<head>
+    <title>Spring Security Example</title>
+</head>
+<body>
+<div class="container my-8">
+
+    <div class="card">
+        <div class="card-body">
+            <div class="col-md-10">
+                <h1>Welcome!</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container my-5">
+    <h3> Login </h3>
+    <div class="card">
+        <div class="card-body">
+            <div class="col-md-10">
+                <form th:action="@{/login}">
+                    <input type="submit" value="Enter">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container my-5">
+    <h3> Admin page </h3>
+    <div class="card">
+        <div class="card-body">
+            <div class="col-md-10">
+                <form th:action="@{/admin}">
+                    <input type="submit" value="Sign in">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <h3> User's details page </h3>
+    <div class="card">
+        <div class="card-body">
+            <div class="col-md-10">
+                <form th:action="@{user}">
+                    <input type="submit" value="Sign in">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</body>
+</html>

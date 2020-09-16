@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <title>User Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+          integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+          crossorigin="anonymous">
+    <!--    <link rel="stylesheet" href="../css/shards.min.css">-->
+
+    <!--    -->
+</head>
+<body>
+
+
+<h2>Hello, <th th:text=" ${user.firstName}"></th></h2>
+<h3>User INFO</h3>
+<tr>
+    <td>User Id:</td>
+
+    <th th:text="${user.id}"></th><br>
+</tr>
+
+<tr>
+    <td>User FirstName:</td>
+    <th th:text="${user.firstName}"></th><br>
+</tr>
+
+<tr>
+    <td>User LastName:</td>
+    <th th:text="${user.lastName}"></th><br>
+</tr>
+
+<tr>
+    <td>User Email:</td>
+    <th th:text="${user.email}"></th><br>
+</tr>
+
+<tr>
+    <td>User Password:</td>
+    <th th:text="${user.password}"></th><br>
+</tr>
+<br>
+<br>
+<br>
+<form th:action="@{/logout}">
+    <input type="submit" value="logout">
+</form>
+
+</body>
+
+
+
+<!--<body>-->
+
+<!--<div class="container my-3">-->
+<!--    <h3>Hello, USER-->
+
+<!--    </h3>-->
+<!--    <br>-->
+<!--    <h3>Here is your personal data </h3>-->
+
+<!--    <div class="card">-->
+<!--        <div class="card-body">-->
+<!--            &lt;!&ndash;/*@thymesVar id="users" type=""*/&ndash;&gt;-->
+<!--            <div th:switch="${name}" class="container my-4">-->
+
+<!--                <div class="col-md-10">-->
+
+<!--                    <div th:case="*">-->
+<!--                        <table class="table table-striped table-responsive-md">-->
+<!--                            <thead>-->
+<!--                            <tr>-->
+<!--                                <th>Id</th>-->
+<!--                                <th>FirstName</th>-->
+<!--                                <th>LastName</th>-->
+<!--                                <th>Email</th>-->
+<!--                                <th>Password</th>-->
+<!--                            </tr>-->
+<!--                            </thead>-->
+<!--                            <tbody>-->
+<!--                            <tr >-->
+<!--                                <td th:text="${user.id}"></td>-->
+<!--                                <td th:text="${user.firstName}"></td>-->
+<!--                                <td th:text="${user.lastName}"></td>-->
+<!--                                <td th:text="${user.email}"></td>-->
+<!--                                <td th:text="${user.password}"></td>-->
+
+<!--                            </tr>-->
+<!--                            </tbody>-->
+<!--                        </table>-->
+<!--                    </div>-->
+
+<!--                </div>-->
+<!--            </div>-->
+<!--            <form th:action="@{/logout}">-->
+<!--                <input type="submit" value="logout">-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--</body>-->
+
+
+</html>
