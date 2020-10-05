@@ -21,12 +21,16 @@ public class User implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
+
+    private Byte age;
 
     @Column(name = "password")
     private String password;
 
+    @Transient
+    private String passwordConfirm;
 
     @ManyToMany
     @JoinTable(

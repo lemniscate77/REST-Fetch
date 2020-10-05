@@ -1,12 +1,13 @@
-CREATE DATABASE IF NOT EXISTS task311;
-use task311;
+CREATE DATABASE IF NOT EXISTS bootstrap312;
+use bootstrap312;
 CREATE TABLE users
 (
     id         BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    first_name VARCHAR(100)                       NOT NULL,
-    last_name  VARCHAR(100)                       NOT NULL,
-    email      VARCHAR(100)                       NOT NULL,
-    password   VARCHAR(100)                       NOT NULL
+    first_name VARCHAR(100)                      NOT NULL unique,
+    last_name  VARCHAR(100)                      NOT NULL,
+    age        int(3)                            not null,
+    email      VARCHAR(100)                      NOT NULL unique,
+    password   VARCHAR(100)                      NOT NULL
 )
     COLLATE = 'utf8_general_ci';
 
@@ -35,9 +36,9 @@ CREATE TABLE user_roles
 
 -- Insert data
 INSERT INTO users
-VALUES (1, 'admin', 'admin', 'admin@ya.ru', 'admin'),
-       (2, 'user', 'user', 'user@ya.ru', 'user'),
-       (3, 'user', 'admin', 'admin@go.com','admin');
+VALUES (1, 'admin', 'admin', 25,'admin@ya.ru', '111'),
+       (2, 'user', 'user', 35,'user1@ya.ru', '111'),
+       (3, 'user1', 'admin', 30,'admin@go.com', '111');
 
 INSERT INTO roles
 VALUES (1, 'ROLE_USER');
