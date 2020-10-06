@@ -19,11 +19,11 @@ public class User implements UserDetails {
     @Column(name = "login")
     private String login;
 
-//    @Column(name = "first_name")
-//    private String firstName;
-//
-//    @Column(name = "last_name")
-//    private String lastName;
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
 
     @Column(name = "password")
     private String password;
@@ -31,16 +31,13 @@ public class User implements UserDetails {
     @Column(name = "email", unique = true)
     private String email;
 
-//    private Byte age;
-
-//    @Transient
-//    private String passwordConfirm;
+    private Byte age;
 
     @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "user_roles",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(
+            name = "users_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> role;
 
     public Set<Role> getRole() {
@@ -60,6 +57,48 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public User(String login, String password, String email, Byte age) {
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        this.age = age;
+    }
+
+    public User(String login, String firstName, String lastName, String password, String email, Byte age) {
+        this.login = login;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.email = email;
+        this.age = age;
+    }
+
+    public Byte getAge() {
+        return age;
+    }
+
+    public void setAge(Byte age) {
+        this.age = age;
+    }
+
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+
     public Integer getId() {
         return id;
     }
@@ -76,21 +115,6 @@ public class User implements UserDetails {
         this.login = login;
     }
 
-//    public String getFirstName() {
-//        return firstName;
-//    }
-//
-//    public void setFirstName(String firstName) {
-//        this.firstName = firstName;
-//    }
-//
-//    public String getLastName() {
-//        return lastName;
-//    }
-//
-//    public void setLastName(String lastName) {
-//        this.lastName = lastName;
-//    }
 
     public String getEmail() {
         return email;

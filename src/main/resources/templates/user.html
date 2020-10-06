@@ -67,18 +67,26 @@
                                 <table class="table table-striped">
                                     <thead>
                                     <tr>
-                                        <th>login</th>
-                                        <th>password</th>
-                                        <th>email</th>
-                                        <th>roles</th>
+                                        <th>ID</th>
+                                        <th>Login</th>
+                                        <th>Password</th>
+                                        <th>Email</th>
+                                        <th>FirstName</th>
+                                        <th>LastName</th>
+                                        <th>Age</th>
+                                        <th>Roles</th>
                                     </tr>
                                     </thead>
 
                                     <tbody>
                                     <tr>
+                                        <td th:text="${user.id}" />
                                         <td th:text="${user.login}" />
                                         <td th:text="${user.password}" />
                                         <td th:text="${user.email}" />
+                                        <td th:text="${user.firstName}" />
+                                        <td th:text="${user.lastName}" />
+                                        <td th:text="${user.age}" />
                                         <td>
                                             <select name="roleIds" th:size="${user.role.size()}" disabled>
                                                 <option th:each="role: ${user.role}"

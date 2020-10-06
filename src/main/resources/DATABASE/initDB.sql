@@ -37,9 +37,9 @@ use bootstrap312;
 
 -- Insert data
 INSERT INTO users
-VALUES (1, 'admin@ya.ru', 'admin', '111'),
-       (2, 'user@ya.ru',  'user', '111'),
-       (3, 'cap@ya.ru', 'useradmin', '111');
+VALUES (1, 25, 'admin@ya.ru', 'Neo', 'Smith', 'admin', '111'),
+       (2, 48, 'user@ya.ru', 'James', 'Bond', 'user', '111'),
+       (3, 39, 'cap@ya.ru', 'Java', 'Developer', 'useradmin', '111');
 
 INSERT INTO roles
 VALUES (1, 'ROLE_USER');

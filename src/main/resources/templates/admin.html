@@ -91,19 +91,27 @@
                                         <table class="table table-striped">
                                             <thead>
                                             <tr>
-                                                <th>login</th>
-                                                <th>password</th>
-                                                <th>email</th>
-                                                <th>roles</th>
-                                                <th>edit</th>
-                                                <th>delete</th>
+                                                <th>ID</th>
+                                                <th>Login</th>
+                                                <th>Password</th>
+                                                <th>Email</th>
+                                                <th>FirstName</th>
+                                                <th>LastName</th>
+                                                <th>Age</th>
+                                                <th>Roles</th>
+                                                <th>Edit</th>
+                                                <th>Delete</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <tr th:each="entry: ${usersWithRoles.entrySet()}">
+                                                <td th:text="${entry.getKey().id}" />
                                                 <td th:text="${entry.getKey().login}" />
                                                 <td th:text="${entry.getKey().password}" />
                                                 <td th:text="${entry.getKey().email}" />
+                                                <td th:text="${entry.getKey().firstName}" />
+                                                <td th:text="${entry.getKey().lastName}" />
+                                                <td th:text="${entry.getKey().age}" />
                                                 <td>
                                                     <select name="roleIds" th:size="${entry.getKey().role.size()}" multiple disabled>
                                                         <option th:each="role: ${entry.getKey().role}"
@@ -174,23 +182,49 @@
                                                                name="login">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="password">password</label>
+                                                        <label for="password">Password</label>
                                                         <input type="text"
                                                                class="form-control"
                                                                id="password"
                                                                name="password">
                                                     </div>
+
                                                     <div class="form-group">
-                                                        <label for="email">email</label>
+                                                        <label for="email">Email</label>
                                                         <input type="text"
                                                                class="form-control"
                                                                id="email"
                                                                name="email"
                                                                aria-describedby="emailHelp">
                                                         <small id="emailHelp"
-                                                               class="form-text text-muted">We'll never share your email with anyone else.
+                                                               class="form-text text-muted">
                                                         </small>
                                                     </div>
+
+                                                    <div class="form-group">
+                                                        <label for="firstName">FirstName</label>
+                                                        <input type="text"
+                                                               class="form-control"
+                                                               id="firstName"
+                                                               name="firstName">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label for="lastName">LastName</label>
+                                                        <input type="text"
+                                                               class="form-control"
+                                                               id="lastName"
+                                                               name="lastName">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label for="age">Age</label>
+                                                        <input type="text"
+                                                               class="form-control"
+                                                               id="age"
+                                                               name="age">
+                                                    </div>
+
                                                     <div class="form-group">
                                                         <label for="roles">roles</label>
                                                         <select class="custom-select"
@@ -244,17 +278,26 @@
                                 <table class="table table-striped">
                                     <thead>
                                     <tr>
-                                        <th>login</th>
-                                        <th>password</th>
-                                        <th>email</th>
-                                        <th>roles</th>
+                                        <th>ID</th>
+                                        <th>Login</th>
+                                        <th>Password</th>
+                                        <th>Email</th>
+                                        <th>FirstName</th>
+                                        <th>LastName</th>
+                                        <th>Age</th>
+                                        <th>Roles</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr>
+                                        <td th:text="${user.id}" />
                                         <td th:text="${user.login}" />
                                         <td th:text="${user.password}" />
                                         <td th:text="${user.email}" />
+                                        <td th:text="${user.firstName}" />
+                                        <td th:text="${user.lastName}" />
+                                        <td th:text="${user.age}" />
+
                                         <td>
                                             <select name="roleIds" th:size="${user.role.size()}" disabled>
                                                 <option
@@ -325,6 +368,8 @@
                                            name="password"
                                            th:value="${entry.getKey().password}">
                                 </div>
+
+
                                 <div class="form-group">
                                     <label for="email">email</label>
                                     <input type="text"
@@ -334,8 +379,35 @@
                                            aria-describedby="emailHelp1"
                                            th:value="${entry.getKey().email}">
                                     <small id="emailHelp1"
-                                           class="form-text text-muted">We'll never share your email with anyone else.
+                                           class="form-text text-muted">
                                     </small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="firstName">FirstName</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="firstName"
+                                           name="firstName"
+                                           th:value="${entry.getKey().firstName}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="lastName">LastName</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="lastName"
+                                           name="lastName"
+                                           th:value="${entry.getKey().lastName}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="age">age</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="age"
+                                           name="age"
+                                           th:value="${entry.getKey().age}">
                                 </div>
 
                                 <div class="form-group">
@@ -425,8 +497,35 @@
                                            th:value="${entry.getKey().email}" disabled>
                                     <small
                                             id="emailHelp2"
-                                            class="form-text text-muted">We'll never share your email with anyone else.
+                                            class="form-text text-muted">
                                     </small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="firstName">FirstName</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="firstName"
+                                           name="firstName"
+                                           th:value="${entry.getKey().firstName}"disabled>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="lastName">LastName</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="lastName"
+                                           name="lastName"
+                                           th:value="${entry.getKey().lastName}"disabled>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="age">age</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="age"
+                                           name="age"
+                                           th:value="${entry.getKey().age}"disabled>
                                 </div>
 
                                 <div class="form-group">
