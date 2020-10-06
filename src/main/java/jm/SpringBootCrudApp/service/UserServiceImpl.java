@@ -8,6 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
@@ -26,6 +28,10 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao;
     }
 
+//    @Autowired
+//    public void encoder(PasswordEncoder passwordEncoder) {
+//        this.passwordEncoder = passwordEncoder;
+//    }
 
     @Transactional(readOnly = true)
     public List<User> getAllUsers() {
@@ -46,6 +52,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public void insert(User user) {
+        //user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.insert(user);
     }
 
