@@ -2,6 +2,7 @@ package jm.SpringBootCrudApp.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Set;
@@ -15,48 +16,48 @@ public class User implements UserDetails {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "first_name", unique = true)
-    private String firstName;
+    @Column(name = "login")
+    private String login;
 
-    @Column(name = "last_name",unique = true)
-    private String lastName;
-
-    @Column(name = "email", unique = true)
-    private String email;
-
-    private Byte age;
+//    @Column(name = "first_name")
+//    private String firstName;
+//
+//    @Column(name = "last_name")
+//    private String lastName;
 
     @Column(name = "password")
     private String password;
 
-    @Transient
-    private String passwordConfirm;
+    @Column(name = "email", unique = true)
+    private String email;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+//    private Byte age;
 
-    public Set<Role> getRoles() {
-        return roles;
+//    @Transient
+//    private String passwordConfirm;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name = "user_roles",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> role;
+
+    public Set<Role> getRole() {
+        return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRole(Set<Role> role) {
+        this.role = role;
     }
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, Byte age, String password, Set<Role> roles) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String login, String email, String password) {
+        this.login = login;
         this.email = email;
-        this.age = age;
         this.password = password;
-        this.roles = roles;
     }
 
     public Integer getId() {
@@ -67,21 +68,29 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getLogin() {
+        return login;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+//    public String getFirstName() {
+//        return firstName;
+//    }
+//
+//    public void setFirstName(String firstName) {
+//        this.firstName = firstName;
+//    }
+//
+//    public String getLastName() {
+//        return lastName;
+//    }
+//
+//    public void setLastName(String lastName) {
+//        this.lastName = lastName;
+//    }
 
     public String getEmail() {
         return email;
@@ -97,7 +106,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return role;
     }
 
     @Override
@@ -107,7 +116,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return firstName;
+        return login;
     }
 
     @Override
@@ -131,10 +140,11 @@ public class User implements UserDetails {
     }
 
     public boolean isRoleInUser(Role role) {
-        return this.roles.stream().anyMatch(r -> r.getId() == role.getId());
+        return this.role.stream().anyMatch(r -> r.getId() == role.getId());
     }
+
     public boolean isUserAdmin() {
-        return roles.stream().anyMatch(r -> r.getRole().equals("ROLE_ADMIN"));
+        return role.stream().anyMatch(r -> r.getRole().equals("ROLE_ADMIN"));
     }
 
 }

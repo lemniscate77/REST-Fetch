@@ -9,7 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -27,86 +27,58 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    @Override
-    public List<User> allUsers() {
-        return userDao.allUsers();
+    @Transactional(readOnly = true)
+    public List<User> getAllUsers() {
+
+        return userDao.read();
     }
 
-    @Override
-    public List<Role> allRoles() {
-        return userDao.allRoles();
+    @Transactional(readOnly = true)
+    public List<Role> getAllRoles() {
+
+        return userDao.readRole();
     }
 
-    @Override
+    @Transactional(readOnly = true)
     public Set<Role> getRoles(String[] ids) {
         return userDao.getRoles(ids);
     }
 
-    @Override
-    public void add(User user) {
-        userDao.add(user);
-    }
-
-    @Override
-    public void delete(Integer id) {
-        userDao.delete(id);
-    }
-
-    @Override
-    public void edit(User user) {
-        userDao.edit(user);
-    }
-
-    @Override
+    @Transactional
     public void insert(User user) {
         userDao.insert(user);
     }
 
-    @Override
-    public User getById(Integer id) {
-        return userDao.getById(id);
+    @Transactional
+    public void update(User user) {
+        userDao.update(user);
     }
 
-    @Override
-    public User getUserByName(String name) {
-        return userDao.getUserByName(name);
-    }
-
-    @Override
+    @Transactional(readOnly = true)
     public User getUser(Integer id) {
-        return userDao.getById(id);
+        return userDao.read(id);
     }
 
-    public User getByName(String name) {
-        return userDao.getByName(name);
+    @Transactional
+    public void deleteUser(Integer id) {
+        userDao.delete(id);
     }
 
     public List<List<String>> getUserRoles(List<Role> allRoles, User user) {
         List<List<String>> newMap1 = new ArrayList<>();
-
         allRoles.forEach(role -> {
             List<String> newMap = new ArrayList<>();
-
             newMap.add(String.valueOf(role.getId()));
             newMap.add(role.getRole());
             newMap.add(user.isRoleInUser(role) ? "true" : "false");
             newMap1.add(newMap);
         });
-
         return newMap1;
     }
+
+    @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.getUserByName(username);
-
-        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-
-        for (Role role : user.getRoles()) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole()));
-        }
-        return new org.springframework.security.core.userdetails.User
-                (user.getUsername(),
-                        user.getPassword(),
-                        grantedAuthorities);
+        return userDao.findByUsername(username);
     }
 }

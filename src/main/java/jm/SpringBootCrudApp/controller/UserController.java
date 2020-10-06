@@ -4,10 +4,7 @@ package jm.SpringBootCrudApp.controller;
 import jm.SpringBootCrudApp.model.Role;
 import jm.SpringBootCrudApp.model.User;
 import jm.SpringBootCrudApp.service.UserService;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,10 +37,10 @@ public class UserController extends HttpServlet {
     public String adminGet(ModelMap model, HttpSession httpSession) {
         model.addAttribute("user", httpSession.getAttribute("user"));
 
-        List<User> allUsers = userService.allUsers();
+        List<User> allUsers = userService.getAllUsers();
         model.addAttribute("users", allUsers);
 
-        List<Role> allRoles = userService.allRoles();
+        List<Role> allRoles = userService.getAllRoles();
         model.addAttribute("roles", allRoles);
 
         Map<User, List<List<String>>> usersWithRoles = new HashMap<>();
@@ -55,7 +52,7 @@ public class UserController extends HttpServlet {
     // add (post)
     @PostMapping(value = "admin/add")
     public String adminAddPost(User user, String[] roleIds) {
-        user.setRoles(userService.getRoles(roleIds));
+        user.setRole(userService.getRoles(roleIds));
         userService.insert(user);
         return "redirect:/admin";
     }
@@ -65,7 +62,7 @@ public class UserController extends HttpServlet {
     public String adminEditGet(ModelMap model, @RequestParam("id") Integer id) {
         User user = userService.getUser(id);
         model.addAttribute("user", user);
-        List<Role> roles = userService.allRoles();
+        List<Role> roles = userService.getAllRoles();
 
         roles.forEach(role -> role.setInUser(user.isRoleInUser(role)));
         model.addAttribute("roles", roles);
@@ -75,15 +72,15 @@ public class UserController extends HttpServlet {
     // edit (post)
     @PostMapping(value = "admin/edit")
     public String adminEditPost(User user, String[] roleIds) {
-        user.setRoles(userService.getRoles(roleIds));
-        userService.edit(user);
+        user.setRole(userService.getRoles(roleIds));
+        userService.update(user);
         return "redirect:/admin";
     }
 
     // delete (post)
     @PostMapping(value = "admin/delete")
     public String adminDeletePost(@RequestParam("id") Integer id) {
-        userService.delete(id);
+        userService.deleteUser(id);
         return "redirect:/admin";
     }
 

@@ -3,19 +3,21 @@ package jm.SpringBootCrudApp.dao;
 
 import jm.SpringBootCrudApp.model.Role;
 import jm.SpringBootCrudApp.model.User;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.util.List;
 import java.util.Set;
 
 
 public interface UserDAO {
-    List<User> allUsers();
-    List<Role> allRoles();
+    List<User> read();
+    List<Role> readRole();
     Set<Role> getRoles(String[] ids);
-    void add(User user);
+
+    void insert(User user);
+    void update(User user);
     void delete(Integer id);
-    void edit(User user);
-    public void insert(User user);
-    User getById(Integer id);
-    User getByName (String name);
-    User getUserByName(String name);
+
+    User read(Integer id);
+    public UserDetails findByUsername(String username);
 }
