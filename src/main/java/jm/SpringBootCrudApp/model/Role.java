@@ -18,6 +18,17 @@ public class Role implements GrantedAuthority {
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
+    public boolean isInUser() {
+        return isInUser;
+    }
+
+    public void setInUser(boolean inUser) {
+        isInUser = inUser;
+    }
+
+    @Transient
+    private boolean isInUser;
+
     public Role (){}
 
     public Role(Integer id, String role) {
@@ -51,6 +62,11 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
+        return getRole();
+    }
+
+    @Override
+    public String toString() {
         return getRole();
     }
 

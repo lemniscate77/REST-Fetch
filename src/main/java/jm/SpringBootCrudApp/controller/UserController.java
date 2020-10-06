@@ -1,43 +1,97 @@
 package jm.SpringBootCrudApp.controller;
 
 
+import jm.SpringBootCrudApp.model.Role;
+import jm.SpringBootCrudApp.model.User;
 import jm.SpringBootCrudApp.service.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
-public class UserController {
-    private final UserService userService;
+@RequestMapping("/")
+public class UserController extends HttpServlet {
+    private UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-
-    @GetMapping(value = "/")
-    public String getHomePage() {
-
-        return "index";
-    }
-
-    @GetMapping(value = "/login")
-    public String getLoginPage() {
+    // entry point (get)
+    @GetMapping(value = "login")
+    public String loginGet() {
         return "login";
     }
 
+    // admin (get)
+    @GetMapping(value = "admin")
+    public String adminGet(ModelMap model, HttpSession httpSession) {
+        model.addAttribute("user", httpSession.getAttribute("user"));
 
-    @GetMapping(value = "/user")
-    public String getUserPage(Model model) {
-        UserDetails user = (UserDetails) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
-        model.addAttribute("user", userService.getUserByName(user.getUsername()));
-        return "user-details";
+        List<User> allUsers = userService.allUsers();
+        model.addAttribute("users", allUsers);
+
+        List<Role> allRoles = userService.allRoles();
+        model.addAttribute("roles", allRoles);
+
+        Map<User, List<List<String>>> usersWithRoles = new HashMap<>();
+        allUsers.forEach(user -> usersWithRoles.put(user, userService.getUserRoles(allRoles, user)));
+        model.addAttribute("usersWithRoles", usersWithRoles);
+        return "admin";
     }
 
+    // add (post)
+    @PostMapping(value = "admin/add")
+    public String adminAddPost(User user, String[] roleIds) {
+        user.setRoles(userService.getRoles(roleIds));
+        userService.insert(user);
+        return "redirect:/admin";
+    }
+
+    // edit (get)
+    @GetMapping(value = "admin/edit")
+    public String adminEditGet(ModelMap model, @RequestParam("id") Integer id) {
+        User user = userService.getUser(id);
+        model.addAttribute("user", user);
+        List<Role> roles = userService.allRoles();
+
+        roles.forEach(role -> role.setInUser(user.isRoleInUser(role)));
+        model.addAttribute("roles", roles);
+        return "admin/edit";
+    }
+
+    // edit (post)
+    @PostMapping(value = "admin/edit")
+    public String adminEditPost(User user, String[] roleIds) {
+        user.setRoles(userService.getRoles(roleIds));
+        userService.edit(user);
+        return "redirect:/admin";
+    }
+
+    // delete (post)
+    @PostMapping(value = "admin/delete")
+    public String adminDeletePost(@RequestParam("id") Integer id) {
+        userService.delete(id);
+        return "redirect:/admin";
+    }
+
+    // user (get)
+    @GetMapping(value = "user")
+    public String userGet(ModelMap modelMap, HttpSession httpSession) {
+        modelMap.addAttribute("user", httpSession.getAttribute("user"));
+        return "user";
+    }
 
 }

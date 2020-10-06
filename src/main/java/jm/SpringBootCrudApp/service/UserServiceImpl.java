@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +33,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<Role> allRoles() {
+        return userDao.allRoles();
+    }
+
+    @Override
+    public Set<Role> getRoles(String[] ids) {
+        return userDao.getRoles(ids);
+    }
+
+    @Override
     public void add(User user) {
         userDao.add(user);
     }
@@ -47,6 +58,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void insert(User user) {
+        userDao.insert(user);
+    }
+
+    @Override
     public User getById(Integer id) {
         return userDao.getById(id);
     }
@@ -56,11 +72,29 @@ public class UserServiceImpl implements UserService {
         return userDao.getUserByName(name);
     }
 
+    @Override
+    public User getUser(Integer id) {
+        return userDao.getById(id);
+    }
+
     public User getByName(String name) {
         return userDao.getByName(name);
     }
 
+    public List<List<String>> getUserRoles(List<Role> allRoles, User user) {
+        List<List<String>> newMap1 = new ArrayList<>();
 
+        allRoles.forEach(role -> {
+            List<String> newMap = new ArrayList<>();
+
+            newMap.add(String.valueOf(role.getId()));
+            newMap.add(role.getRole());
+            newMap.add(user.isRoleInUser(role) ? "true" : "false");
+            newMap1.add(newMap);
+        });
+
+        return newMap1;
+    }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.getUserByName(username);

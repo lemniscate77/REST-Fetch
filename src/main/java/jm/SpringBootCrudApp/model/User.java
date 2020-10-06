@@ -15,10 +15,10 @@ public class User implements UserDetails {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", unique = true)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name",unique = true)
     private String lastName;
 
     @Column(name = "email", unique = true)
@@ -50,11 +50,11 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Integer id, String firstName, String lastName, String email, String password, Set<Role> roles) {
-        this.id = id;
+    public User(String firstName, String lastName, String email, Byte age, String password, Set<Role> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.age = age;
         this.password = password;
         this.roles = roles;
     }
@@ -130,6 +130,12 @@ public class User implements UserDetails {
         return true;
     }
 
+    public boolean isRoleInUser(Role role) {
+        return this.roles.stream().anyMatch(r -> r.getId() == role.getId());
+    }
+    public boolean isUserAdmin() {
+        return roles.stream().anyMatch(r -> r.getRole().equals("ROLE_ADMIN"));
+    }
 
 }
 
